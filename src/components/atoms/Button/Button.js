@@ -6,7 +6,10 @@ const Button = styled.button`
   color: white;
   background-color: ${({ theme }) => theme.primary};
   border: 0;
-
+  margin: 0;
+  position: relative;
+  left: 10px;
+  right: 10px;
   ${({ secondary }) =>
     secondary &&
     css`

@@ -4,17 +4,23 @@ import PropTypes from 'prop-types';
 
 const InputField = styled.input`
   margin: 0;
-  padding: 10px 0 10px 35px;
-  border: 0;
+  padding: 15px;
+  border: 1px solid green;
   border-bottom: 3px solid green;
   font-family: 'Montserrat', sans-serif;
   font-size: 16px;
+  border-radius: 3px;
+  background-color: #777;
+  color: white;
+  font-weight: 300;
 `;
 const FieldSpan = styled.span`
+  font-weight: 300;
   position: absolute;
   top: 10px;
   left: 10px;
   transition: 0.2s transform;
+  color: white;
   pointer-events: none;
   ${InputField}:focus ~ &,
   ${InputField}:not(:focus):valid ~ & {

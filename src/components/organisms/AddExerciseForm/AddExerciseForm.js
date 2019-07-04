@@ -5,6 +5,8 @@ import { Input } from 'components/atoms/Input/Input';
 import Heading from 'components/atoms/Heading/Heading';
 import Button from 'components/atoms/Button/Button';
 import { Formik } from 'formik';
+import { ExerciseBlock } from 'components/atoms/ExerciseBlock/ExerciseBlock';
+import PropTypes from 'prop-types';
 
 const StyledWrapper = styled.div`
   width: 600px;
@@ -21,25 +23,23 @@ class AddExerciseForm extends Component {
   };
 
   render() {
+    const { exercise } = this.state;
+    const { getExercises } = this.props;
     return (
       <StyledWrapper>
-        <Heading big>Add new workout</Heading>
+        <Heading big>Add new exercise</Heading>
         <Formik
           initialValues={{ exerciseName: '', sets: '', reps: '' }}
-          //   validate={values => {
-          //     const errors = {};
-          //     if (!values.email) {
-          //       errors.email = 'Required';
-          //     } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)) {
-          //       errors.email = 'Invalid email address';
-          //     }
-          //     return errors;
-          //   }}
-          onSubmit={values => {
+          // eslint-disable-next-line no-undef
+          onSubmit={(values, a: actions) => {
+            a.resetForm();
+
             const newExercise = values;
             this.setState(prevState => ({
               exercise: [...prevState.exercise, newExercise],
             }));
+
+            setTimeout(getExercises(exercise), 90);
           }}
         >
           {({
@@ -47,7 +47,7 @@ class AddExerciseForm extends Component {
             handleChange,
             handleBlur,
             handleSubmit,
-            isSubmitting,
+
             /* and other goodies */
           }) => (
             <form onSubmit={handleSubmit}>
@@ -57,7 +57,7 @@ class AddExerciseForm extends Component {
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.exerciseName}
-                placeholder="Exercise Name"
+                placeholder="Exercise"
               />
               <Input
                 type="number"
@@ -65,6 +65,7 @@ class AddExerciseForm extends Component {
                 onChange={handleChange}
                 onBlur={handleBlur}
                 placeholder="Sets"
+                value={values.sets}
               />
               <Input
                 type="number"
@@ -74,19 +75,27 @@ class AddExerciseForm extends Component {
                 value={values.reps}
                 placeholder="Reps"
               />
-              <button type="submit" disabled={isSubmitting}>
-                Submit
-              </button>
+              <Button type="submit">Add new exercise</Button>
             </form>
           )}
         </Formik>
-        <Input placeholder="Exercise Name" name="exerciseName" />
-        <Input placeholder="Sets" name="sets" />
-        <Input placeholder="Reps" name="reps" />
-        <Button onClick={this.addNewExercise}>Add exercise</Button>
+        <div>
+          {exercise.length !== 0
+            ? exercise.map(item => (
+                <ExerciseBlock
+                  name={item.exerciseName}
+                  sets={item.sets}
+                  reps={item.reps}
+                  key={item.exerciseName}
+                />
+              ))
+            : null}
+        </div>
       </StyledWrapper>
     );
   }
 }
-
+AddExerciseForm.propTypes = {
+  getExercises: PropTypes.func.isRequired,
+};
 export default AddExerciseForm;
