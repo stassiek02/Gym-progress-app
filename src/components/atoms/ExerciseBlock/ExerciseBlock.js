@@ -6,38 +6,33 @@ import PropTypes from 'prop-types';
 const StyledWrapper = styled.div`
   display: inline-block;
   color: white;
-  width: 200px;
-  height: 100px;
-  background-color: #2c2c54;
-  border-radius: 5px;
-  transform: skew(-30deg, 0deg);
+  background-color: ${({ theme }) => theme.primary};
+  width: 150px;
+  margin: 5px;
 `;
 const StyledHeading = styled(Heading)`
   text-align: center;
-  border-bottom: 1px solid #ffb142;
-  margin: 0;
-  padding: 10px;
+  border-bottom: 1px solid ${({ theme }) => theme.secondary};
+  margin: 0 auto;
+  padding: 5px;
   overflow: hidden;
-  transform: skew(30deg, 0deg) translateX(-14px);
+  display: block;
 `;
 const StyledParagraph = styled.p`
-  transform: skew(30deg, 0deg);
+  padding: 10px;
   margin: 0;
   position: relative;
-  top: 15px;
   text-align: center;
 `;
-export const ExerciseBlock = ({ name, sets, reps }) => (
+export const ExerciseBlock = ({ parameters }) => (
   <StyledWrapper>
-    <StyledHeading big>{name}</StyledHeading>
+    <StyledHeading big>{parameters.name}</StyledHeading>
     <StyledParagraph>
-      {sets} sets of {reps}
+      {parameters.sets} sets of {parameters.reps}
     </StyledParagraph>
   </StyledWrapper>
 );
 
 ExerciseBlock.propTypes = {
-  name: PropTypes.string.isRequired,
-  sets: PropTypes.number.isRequired,
-  reps: PropTypes.number.isRequired,
+  parameters: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
 };

@@ -1,8 +1,10 @@
 export const theme = {
-  primary: '#b8e994',
-  secondary: '#e1b12c',
-  bold: 600,
+  primary: '#303439',
+  secondary: '#D94E5B',
+  thin: 300,
+  normal: 400,
   semiBold: 500,
+  bold: 600,
   fontSize: {
     s: '1rem',
     m: '1.6rem',

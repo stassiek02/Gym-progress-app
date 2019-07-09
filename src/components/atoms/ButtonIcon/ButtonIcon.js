@@ -1,19 +1,15 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
 const ButtonIcon = styled.button`
   display: block;
-  width: 67px;
-  height: 67px;
-  border-radius: 50px;
+  width: 60px;
+  height: 60px;
 
   background-image: url(${({ icon }) => icon});
   background-repeat: no-repeat;
   background-position: 50% 50%;
-  background-size: 40%;
+  background-size: 100%;
   border: none;
-
-  &.active {
-    background-color: white;
-  }
+  background-color: ${({ theme }) => theme.primary};
 `;
 export default ButtonIcon;

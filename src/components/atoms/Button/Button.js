@@ -1,15 +1,21 @@
 import styled, { css } from 'styled-components';
 
 const Button = styled.button`
-  font-size: 2rem;
+  display: block;
+  font-family: 'Montserrat';
+  font-size: ${({ theme }) => theme.fontSize.m};
+  font-weight: ${({ theme }) => theme.normal};
+  width: 220px;
   padding: 10px 25px;
   color: white;
-  background-color: ${({ theme }) => theme.primary};
+  background-color: ${({ theme }) => theme.secondary};
   border: 0;
-  margin: 0;
-  position: relative;
-  left: 10px;
-  right: 10px;
+  margin: 0 auto;
+  transition: 0.2s background-color;
+  &:hover {
+    background-color: rgb(217, 78, 91, 0.8);
+  }
+
   ${({ secondary }) =>
     secondary &&
     css`

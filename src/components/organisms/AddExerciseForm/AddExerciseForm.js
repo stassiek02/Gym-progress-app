@@ -1,21 +1,8 @@
-/* eslint-disable import/no-unresolved */
 import React, { Component } from 'react';
-import styled from 'styled-components';
 import { Input } from 'components/atoms/Input/Input';
-import Heading from 'components/atoms/Heading/Heading';
 import Button from 'components/atoms/Button/Button';
 import { Formik } from 'formik';
-import { ExerciseBlock } from 'components/atoms/ExerciseBlock/ExerciseBlock';
 import PropTypes from 'prop-types';
-
-const StyledWrapper = styled.div`
-  width: 600px;
-  height: 400px;
-  background-color: darkgray;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
 
 class AddExerciseForm extends Component {
   state = {
@@ -23,13 +10,11 @@ class AddExerciseForm extends Component {
   };
 
   render() {
-    const { exercise } = this.state;
     const { getExercises } = this.props;
     return (
-      <StyledWrapper>
-        <Heading big>Add new exercise</Heading>
+      <>
         <Formik
-          initialValues={{ exerciseName: '', sets: '', reps: '' }}
+          initialValues={{ name: '', sets: '', reps: '' }}
           // eslint-disable-next-line no-undef
           onSubmit={(values, a: actions) => {
             a.resetForm();
@@ -39,7 +24,7 @@ class AddExerciseForm extends Component {
               exercise: [...prevState.exercise, newExercise],
             }));
 
-            setTimeout(getExercises(exercise), 90);
+            getExercises(values);
           }}
         >
           {({
@@ -53,10 +38,10 @@ class AddExerciseForm extends Component {
             <form onSubmit={handleSubmit}>
               <Input
                 type="text"
-                name="exerciseName"
+                name="name"
                 onChange={handleChange}
                 onBlur={handleBlur}
-                value={values.exerciseName}
+                value={values.name}
                 placeholder="Exercise"
               />
               <Input
@@ -79,19 +64,7 @@ class AddExerciseForm extends Component {
             </form>
           )}
         </Formik>
-        <div>
-          {exercise.length !== 0
-            ? exercise.map(item => (
-                <ExerciseBlock
-                  name={item.exerciseName}
-                  sets={item.sets}
-                  reps={item.reps}
-                  key={item.exerciseName}
-                />
-              ))
-            : null}
-        </div>
-      </StyledWrapper>
+      </>
     );
   }
 }

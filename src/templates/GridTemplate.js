@@ -31,18 +31,6 @@ const StyledPageHeader = styled.div`
   margin: 25px 0 50px 0;
 `;
 
-const StyledHeading = styled.h1`
-  margin: 25px 0 0 0;
-
-  ::first-letter {
-    text-transform: uppercase;
-  }
-`;
-const StyledParagraph = styled.p`
-  margin: 0;
-  font-weight: ${({ theme }) => theme.bold};
-`;
-
 const GridTemplate = ({ children }) => (
   <UserPageTemplate>
     <StyledWrapper>
@@ -55,7 +43,7 @@ const GridTemplate = ({ children }) => (
 );
 
 GridTemplate.propTypes = {
-  children: PropTypes.arrayOf(PropTypes.object).isRequired,
+  children: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
 };
 
 export default GridTemplate;

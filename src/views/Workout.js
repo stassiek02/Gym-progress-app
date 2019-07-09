@@ -1,88 +1,48 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { connect } from 'react-redux';
+import styled from 'styled-components';
+import PropTypes from 'prop-types';
 import Card from 'components/molecules/Card/Card';
 import UserPageTemplate from 'templates/UserPageTemplate';
-import AddExerciseForm from 'components/organisms/AddExerciseForm/AddExerciseForm';
+import AddWorkoutForm from 'components/organisms/AddWorkoutForm/AddWorkoutForm';
+import ButtonIcon from 'components/atoms/ButtonIcon/ButtonIcon';
+import PlusIcon from 'assets/icons/plus.svg';
 import GridTemplate from '../templates/GridTemplate';
 
-const workoutA = [
-  {
-    name: 'Martwy ciąg',
-    sets: '5',
-    reps: '5',
-  },
-  {
-    name: 'przysiad',
-    sets: '5',
-    reps: '5',
-  },
-  {
-    name: 'przysiad',
-    sets: '5',
-    reps: '5',
-  },
-  {
-    name: 'przysiad',
-    sets: '5',
-    reps: '5',
-  },
-];
-const workoutB = [
-  {
-    name: 'Martwy ciąg',
-    sets: '5',
-    reps: '5',
-  },
-  {
-    name: 'przysiad',
-    sets: '5',
-    reps: '5',
-  },
-  {
-    name: 'przysiad',
-    sets: '5',
-    reps: '5',
-  },
-  {
-    name: 'przysiad',
-    sets: '5',
-    reps: '5',
-  },
-];
-const workoutC = [
-  {
-    name: 'Martwy ciąg',
-    sets: '5',
-    reps: '5',
-  },
-  {
-    name: 'przysiad',
-    sets: '5',
-    reps: '5',
-  },
-  {
-    name: 'przysiad',
-    sets: '5',
-    reps: '5',
-  },
-  {
-    name: 'przysiad',
-    sets: '5',
-    reps: '5',
-  },
-];
-const workouts = [workoutA, workoutB, workoutC];
+const AddWorkoutButton = styled(ButtonIcon)`
+  border-radius: 50px;
+  background-color: ${({ theme }) => theme.secondary};
+  position: absolute;
+  bottom: 30px;
+  right: 30px;
+  background-size: 50%;
+`;
+const Workout = ({ routine }) => {
+  const [FormActive, setFormActive] = useState(false);
 
-const all = { workoutA: [] };
+  function toggleForm() {
+    setFormActive(FormActive === false);
+  }
 
-const Workout = () => (
-  <>
-    <UserPageTemplate />
-    <AddExerciseForm />
-    {/* <GridTemplate>
-      {workouts.map((item, index) => (
-        <Card workout={item} title={index + 1} />
-      ))} */}
-  </>
-);
+  return (
+    <>
+      <UserPageTemplate />
+      <AddWorkoutForm FormActive={FormActive} toggleForm={toggleForm} />
+      <AddWorkoutButton icon={PlusIcon} onClick={() => toggleForm()} />
+      <GridTemplate>
+        {routine.map(workout => (
+          <Card workout={workout} />
+        ))}
+      </GridTemplate>
+    </>
+  );
+};
 
-export default Workout;
+const mapStateToProps = state => {
+  const routine = state;
+  return { routine };
+};
+Workout.propTypes = {
+  routine: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
+};
+export default connect(mapStateToProps)(Workout);
