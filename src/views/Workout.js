@@ -30,7 +30,7 @@ const Workout = ({ routine }) => {
       <AddWorkoutForm FormActive={FormActive} toggleForm={toggleForm} />
       <AddWorkoutButton icon={PlusIcon} onClick={() => toggleForm()} />
       <GridTemplate>
-        {routine.map(workout => (
+        {routine.arr.map(workout => (
           <Card workout={workout} />
         ))}
       </GridTemplate>

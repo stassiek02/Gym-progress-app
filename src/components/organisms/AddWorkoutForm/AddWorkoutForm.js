@@ -8,6 +8,8 @@ import AddExerciseForm from 'components/organisms/AddExerciseForm/AddExerciseFor
 import Heading from 'components/atoms/Heading/Heading';
 import { ExerciseBlock } from 'components/atoms/ExerciseBlock/ExerciseBlock';
 import PropTypes from 'prop-types';
+import { addItem as addItemAction } from 'actions';
+import { connect } from 'react-redux';
 
 const StyledWrapper = styled.div`
   position: absolute;
@@ -15,11 +17,13 @@ const StyledWrapper = styled.div`
   left: 40%;
   width: 500px;
   min-height: 500px;
-  background-color: #303439;
+  background-color: #44494f;
   display: grid;
   align-items: center;
   transform: translate(-0, -200%);
   transition: 0.3s transform ease-in-out;
+  box-shadow: 0 -2px 100px -10px white;
+  z-index: 9999;
   ${({ FormActive }) =>
     FormActive &&
     css`
@@ -64,6 +68,7 @@ class AddWorkout extends Component {
   sendWorkoutToState = () => {
     const { workoutName } = this.state;
     const { exercises } = this.state;
+    const { addItem } = this.props;
     // const Workout = {
     //   [workoutName]: exercises,
     // };
@@ -72,6 +77,7 @@ class AddWorkout extends Component {
       workoutName,
       exercises,
     };
+    addItem(day);
     // to na końcu
     this.setState({
       Workout: day,
@@ -105,8 +111,16 @@ class AddWorkout extends Component {
 AddWorkout.propTypes = {
   FormActive: PropTypes.bool,
   toggleForm: PropTypes.func.isRequired,
+  addItem: PropTypes.func.isRequired,
 };
 AddWorkout.defaultProps = {
   FormActive: false,
 };
-export default AddWorkout;
+const mapDispatchToProps = dispatch => ({
+  addItem: itemContent => dispatch(addItemAction(itemContent)),
+});
+
+export default connect(
+  null,
+  mapDispatchToProps,
+)(AddWorkout);

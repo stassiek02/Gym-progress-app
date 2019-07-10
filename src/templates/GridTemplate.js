@@ -10,19 +10,20 @@ const StyledWrapper = styled.div`
 
 const StyledGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-gap: 4vw;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 2vw;
+  gird-wrap: wrap;
 
   @media (max-width: 1200px) {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, 0.5fr);
     grid-gap: 2vw;
   }
   @media (max-width: 860px) {
-    grid-template-columns: repeat(1, 1fr);
+    grid-template-columns: repeat(2, 0.5fr);
     grid-gap: 2vw;
   }
   @media (min-width: 2000px) {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 0.5fr);
     grid-gap: 2vw;
   }
 `;
