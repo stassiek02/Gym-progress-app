@@ -49,16 +49,17 @@ const StyledButton = styled(Button)`
 `;
 
 const Card = ({ workout, removeItem }) => {
+  const [workoutId, workoutExercises] = workout;
   return (
     <StyledWrapper>
       <InnerWrapper>
         <Heading as="h2" big>
-          {workout.workoutName}
+          {workoutExercises.workout.workoutName}
         </Heading>
-        <StyledButton onClick={() => removeItem(workout.id)}>X</StyledButton>
+        <StyledButton onClick={() => removeItem(workoutId)}>X</StyledButton>
       </InnerWrapper>
       <ExerciseWrapper>
-        {workout.exercises.map(item => (
+        {workoutExercises.workout.exercises.map(item => (
           <ExerciseBlock parameters={item} />
         ))}
       </ExerciseWrapper>
@@ -67,7 +68,7 @@ const Card = ({ workout, removeItem }) => {
 };
 
 Card.propTypes = {
-  workout: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.array, PropTypes.string])).isRequired,
+  // workout: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.array, PropTypes.string])).isRequired,
   removeItem: PropTypes.func.isRequired,
 };
 const mapDispatchToProps = dispatch => ({

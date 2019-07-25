@@ -5,7 +5,8 @@ const Button = styled.button`
   font-family: 'Montserrat';
   font-size: ${({ theme }) => theme.fontSize.m};
   font-weight: ${({ theme }) => theme.normal};
-  width: 220px;
+  width: 100%;
+  max-width: 220px;
   padding: 10px 25px;
   color: white;
   background-color: ${({ theme }) => theme.secondary};

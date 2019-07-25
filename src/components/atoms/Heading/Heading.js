@@ -5,6 +5,7 @@ const Heading = styled.h1`
   font-weight: ${({ theme }) => theme.semiBold};
   color: white;
   display: inline-block;
+  text-align: center;
 `;
 
 export default Heading;

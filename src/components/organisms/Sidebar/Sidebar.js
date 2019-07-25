@@ -1,5 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
+import Button from 'components/atoms/Button/Button';
+import { signOutUser } from 'actions';
+import { connect } from 'react-redux';
 
 const Wrapper = styled.nav`
   position: fixed;
@@ -9,44 +12,54 @@ const Wrapper = styled.nav`
   padding: 25px 0;
   height: 100vh;
   background-color: ${({ theme }) => theme.primary};
-  z-index: -1;
 `;
 
 const MenuText = styled.span`
   position: relative;
-  right: 0;
-  left: 0;
+  left: 5px;
   top: 15px;
   transition: 0.3s all;
   color: white;
   font-size: 4rem;
-  pointer-events: none;
-  user-select: none;
+`;
+const StyledList = styled.ul`
+  margin-top: 60px;
+  list-style: none;
+  padding: 0;
+  z-index: 99999;
+`;
+const StyledListItem = styled.li`
+  padding:15px 0;
+  border-bottom:1px solid white;
+  text-align:center;
+  transition:.2s background-color;
+  color:white;
+  font-size:${({ theme }) => theme.fontSize.l}
+
+  &:hover{
+    background-color:${({ theme }) => theme.tertiary};
+  }
 `;
 
-function SideBar() {
-  const [visible, setVisible] = useState(false);
-
-  function toggleMenu() {
-    setVisible(visible === false);
-  }
-
+function SideBar({ signOutUser }) {
   return (
     <>
-      <Wrapper
-        isVisible={visible}
-        onMouseEnter={() => toggleMenu()}
-        onMouseLeave={() => toggleMenu()}
-      >
-        <MenuText isVisible={visible}>MENU</MenuText>
-        <ul>
-          <li>Dupa</li>
-          <li>Dupa</li>
-          <li>Dupa</li>
-        </ul>
+      <Wrapper>
+        <MenuText>MENU</MenuText>
+        <StyledList>
+          <StyledListItem>Routine</StyledListItem>
+          <StyledListItem>Progress</StyledListItem>
+        </StyledList>
+        <Button onClick={() => signOutUser()}>Log out</Button>
       </Wrapper>
     </>
   );
 }
 
-export default SideBar;
+const mapDispatchToProps = dispatch => ({
+  signOutUser: () => dispatch(signOutUser()),
+});
+export default connect(
+  null,
+  mapDispatchToProps,
+)(SideBar);

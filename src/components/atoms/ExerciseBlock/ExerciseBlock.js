@@ -6,8 +6,8 @@ import PropTypes from 'prop-types';
 const StyledWrapper = styled.div`
   display: inline-block;
   color: white;
-  background-color: ${({ theme }) => theme.primary};
-  width: 150px;
+  background-color: transparent;
+  min-width: 150px;
   margin: 5px;
 `;
 const StyledHeading = styled(Heading)`

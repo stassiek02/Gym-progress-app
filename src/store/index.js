@@ -1,11 +1,11 @@
-import { createStore } from 'redux';
-import workoutApp from 'reducers';
-
+import { createStore, applyMiddleware, compose } from 'redux';
+import reduxThunk from 'redux-thunk';
+import rootReducer from 'reducers';
+import { verifyAuth } from 'actions';
 /* eslint-disable no-underscore-dangle */
-const store = createStore(
-  workoutApp /* preloadedState, */,
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
-);
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const configureStore = createStore(rootReducer, composeEnhancers(applyMiddleware(reduxThunk)));
 
+configureStore.dispatch(verifyAuth());
 /* eslint-enable */
-export default store;
+export default configureStore;

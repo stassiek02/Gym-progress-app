@@ -8,7 +8,7 @@ import AddExerciseForm from 'components/organisms/AddExerciseForm/AddExerciseFor
 import Heading from 'components/atoms/Heading/Heading';
 import { ExerciseBlock } from 'components/atoms/ExerciseBlock/ExerciseBlock';
 import PropTypes from 'prop-types';
-import { addItem as addItemAction } from 'actions';
+import { addWorkout as addWorkoutAction } from 'actions';
 import { connect } from 'react-redux';
 
 const StyledWrapper = styled.div`
@@ -22,7 +22,6 @@ const StyledWrapper = styled.div`
   align-items: center;
   transform: translate(-0, -200%);
   transition: 0.3s transform ease-in-out;
-  box-shadow: 0 -2px 100px -10px white;
   z-index: 9999;
   ${({ FormActive }) =>
     FormActive &&
@@ -62,28 +61,25 @@ class AddWorkout extends Component {
       workoutName: event.target.value,
     });
     // eslint-disable-next-line no-console
-    console.log(this.state);
   };
 
   sendWorkoutToState = () => {
-    const { workoutName } = this.state;
-    const { exercises } = this.state;
-    const { addItem } = this.props;
-    // const Workout = {
-    //   [workoutName]: exercises,
-    // };
+    const { workoutName, exercises } = this.state;
+    const { addWorkout } = this.props;
 
     const day = {
       workoutName,
       exercises,
     };
-    addItem(day);
-    // to na końcu
-    this.setState({
-      Workout: day,
-      exercises: [],
-      workoutName: '',
-    });
+    if (day.exercises.length > 0) {
+      addWorkout(day);
+      // to na końcu
+      this.setState({
+        Workout: day,
+        exercises: [],
+        workoutName: '',
+      });
+    }
   };
 
   render() {
@@ -111,13 +107,13 @@ class AddWorkout extends Component {
 AddWorkout.propTypes = {
   FormActive: PropTypes.bool,
   toggleForm: PropTypes.func.isRequired,
-  addItem: PropTypes.func.isRequired,
+  addWorkout: PropTypes.func.isRequired,
 };
 AddWorkout.defaultProps = {
   FormActive: false,
 };
 const mapDispatchToProps = dispatch => ({
-  addItem: itemContent => dispatch(addItemAction(itemContent)),
+  addWorkout: workout => dispatch(addWorkoutAction(workout)),
 });
 
 export default connect(
