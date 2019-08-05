@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Button from 'components/atoms/Button/Button';
-import { signOutUser } from 'actions';
+import { signOut } from 'actions';
 import { connect } from 'react-redux';
 
 const Wrapper = styled.nav`
@@ -34,14 +34,14 @@ const StyledListItem = styled.li`
   text-align:center;
   transition:.2s background-color;
   color:white;
-  font-size:${({ theme }) => theme.fontSize.l}
+  font-size:${({ theme }) => theme.fontSize.l};
 
   &:hover{
     background-color:${({ theme }) => theme.tertiary};
   }
 `;
 
-function SideBar({ signOutUser }) {
+function SideBar({ signOut }) {
   return (
     <>
       <Wrapper>
@@ -50,14 +50,14 @@ function SideBar({ signOutUser }) {
           <StyledListItem>Routine</StyledListItem>
           <StyledListItem>Progress</StyledListItem>
         </StyledList>
-        <Button onClick={() => signOutUser()}>Log out</Button>
+        <Button onClick={() => signOut()}>Log out</Button>
       </Wrapper>
     </>
   );
 }
 
 const mapDispatchToProps = dispatch => ({
-  signOutUser: () => dispatch(signOutUser()),
+  signOut: () => dispatch(signOut()),
 });
 export default connect(
   null,

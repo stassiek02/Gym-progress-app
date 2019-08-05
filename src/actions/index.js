@@ -1,59 +1,126 @@
 /* eslint-disable no-unused-vars */
 import firebase from 'firebaseConfig';
 
-export const addWorkout = workout => {
-  const userId = firebase.auth().currentUser.uid;
-  return dispatch => {
+export const ADD_WORKOUT_REQUEST = 'ADD_WORKOUT_REQUEST';
+export const ADD_WORKOUT_SUCCESS = 'ADD_WORKOUT_SUCCESS';
+export const ADD_WORKOUT_FAILURE = 'ADD_WORKOUT_FAILURE';
+
+export const REMOVE_WORKOUT_REQUEST = 'REMOVE_WORKOUT_REQUEST';
+export const REMOVE_WORKOUT_SUCCESS = 'REMOVE_WORKOUT_SUCCESS';
+export const REMOVE_WORKOUT_FAILURE = 'REMOVE_WORKOUT_FAILURE';
+
+export const AUTH_REQUEST = 'AUTH_REQUEST';
+export const AUTH_SUCCESS = 'AUTH_SUCCESS';
+export const AUTH_FAILURE = 'AUTH_FAILURE';
+
+export const FETCH_REQUEST = 'FETCH_REQUEST';
+export const FETCH_SUCCESS = 'FETCH_SUCCESS';
+export const FETCH_FAILURE = 'FETCH_FAILURE';
+
+export const SIGN_IN_REQUEST = 'SIGN_IN_REQUEST';
+export const SIGN_IN_SUCCESS = 'SIGN_IN_SUCCESS';
+export const SIGN_IN_FAILURE = 'SIGN_IN_FAILURE';
+
+export const SIGN_UP_REQUEST = 'SIGN_UP_REQUEST';
+export const SIGN_UP_SUCCESS = 'SIGN_UP_SUCCESS';
+export const SIGN_UP_FAILURE = 'SIGN_UP_FAILURE';
+
+export const fetchRoutine = routine => (dispatch, getState) => {
+  const userId = getState().authReducer.user;
+  dispatch({ type: FETCH_REQUEST });
+  if (userId) {
     firebase
       .database()
-      .ref(userId)
-      .child('routine')
-      .push({
-        workout,
-      })
-      .then(() => {
-        dispatch({
-          type: 'ADD_WORKOUT',
-          payload: workout,
-        });
-      });
-  };
-};
-
-export function fetchRoutine() {
-  return dispatch => {
-    const userId = firebase.auth().currentUser.uid;
-
-    firebase
-      .database()
-      .ref(userId)
+     .ref(userId)
       .on('value', snapshot => {
-        dispatch({
-          type: 'FETCH_ROUTINE',
-          payload: snapshot.val(),
-        });
-      });
-  };
-}
-
-export const removeItem = id => {
-  return dispatch => {
-    const userId = firebase.auth().currentUser.uid;
-    const workoutRef = firebase.database().ref(`${userId}/routine/${id}`);
-    workoutRef
-      .remove()
-      .then(() => {
-        dispatch({
-          type: 'REMOVE_SUCCESFUL',
-        });
-      })
-      .catch(error => {
-        dispatch({
-          type: 'REMOVE_FAIL',
-        });
-      });
-  };
+       dispatch({
+         type: FETCH_SUCCESS,
+         payload: snapshot.val(),
+       });
+     });
+     
+  }
 };
+
+export const addWorkout = workout => (dispatch, getState) => {
+  const userId = getState().authReducer.user;
+  dispatch({ type: ADD_WORKOUT_REQUEST });
+  firebase
+    .database()
+    .ref(userId)
+    .child('routine')
+    .push({
+      workout,
+    })
+    .then(data => {
+      dispatch({
+        type: ADD_WORKOUT_SUCCESS,
+        payload: workout,
+      });
+    })
+    .catch(err => {
+      dispatch({
+        type: ADD_WORKOUT_FAILURE,
+        payload: err,
+      });
+    });
+};
+
+export const removeItem = id => (dispatch, getState) => {
+  const userId = getState().authReducer.user;
+  const workoutRef = firebase.database().ref(`${userId}/routine/${id}`);
+  dispatch({ type: REMOVE_WORKOUT_REQUEST });
+  workoutRef
+    .remove()
+    .then(() => {
+      dispatch({
+        type: REMOVE_WORKOUT_SUCCESS,
+        payload:id,
+      });
+    })
+    .catch(error => {
+      dispatch({
+        type: REMOVE_WORKOUT_FAILURE,
+      });
+    });
+};
+export const signIn = (email, password) => dispatch => {
+  dispatch({ type: SIGN_IN_REQUEST });
+  firebase
+    .auth()
+    .signInWithEmailAndPassword(email, password)
+    .then(response => {
+      dispatch({
+        type: SIGN_IN_SUCCESS,
+        payload: response.user.uid,
+      });
+    })
+    .catch(err => {
+      dispatch({
+        type: SIGN_IN_FAILURE,
+        payload: err,
+      });
+    });
+};
+export const signUp = (email, password) => dispatch => {
+  dispatch({ type: SIGN_UP_REQUEST });
+  firebase
+    .auth()
+    .createUserWithEmailAndPassword(email, password)
+    .then(response => {
+      dispatch({
+        type: SIGN_UP_SUCCESS,
+        payload: response.user.uid,
+      });
+    })
+    .catch(err => {
+      dispatch({
+        type: SIGN_UP_FAILURE,
+        payload: err,
+      });
+    });
+};
+
 export function authUser(user) {
   return {
     type: 'AUTH_USER',
@@ -66,7 +133,8 @@ export function authError(error) {
     payload: error,
   };
 }
-export function signOutUser() {
+
+export function signOut() {
   return dispatch => {
     firebase
       .auth()
@@ -74,10 +142,12 @@ export function signOutUser() {
       .then(() => {
         dispatch({
           type: 'SIGN_OUT_USER',
+
         });
       });
   };
 }
+
 
 export function verifyAuth() {
   return dispatch => {
@@ -85,35 +155,8 @@ export function verifyAuth() {
       if (user) {
         dispatch(authUser(user));
       } else {
-        dispatch(signOutUser());
+        dispatch(signOut());
       }
     });
-  };
-}
-
-export function signUpUser(email, password) {
-  return dispatch => {
-    firebase
-      .auth()
-      .createUserWithEmailAndPassword(email, password)
-      .then(response => {
-        dispatch(authUser());
-      })
-      .catch(error => {
-        dispatch(authError(error));
-      });
-  };
-}
-export function signInUser(email, password) {
-  return dispatch => {
-    firebase
-      .auth()
-      .signInWithEmailAndPassword(email, password)
-      .then(response => {
-        dispatch(verifyAuth());
-      })
-      .catch(error => {
-        dispatch(authError(error));
-      });
   };
 }

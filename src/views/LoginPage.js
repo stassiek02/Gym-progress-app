@@ -2,14 +2,15 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-
+import { Redirect } from 'react-router-dom';
 import { Formik, Form } from 'formik';
 import AuthTemplete from 'templates/AuthTemplete';
 import { Input } from 'components/atoms/Input/Input';
 import Button from 'components/atoms/Button/Button';
 import Heading from 'components/atoms/Heading/Heading';
 import { connect } from 'react-redux';
-import { signInUser } from 'actions';
+import { signIn } from 'actions';
+import {routes} from 'routes';
 import * as Yup from 'yup';
 
 const StyledForm = styled(Form)`
@@ -28,7 +29,7 @@ const SignInSchema = Yup.object().shape({
     .min(6, 'Too Short!')
     .required('Password is required'),
 });
-const LoginPage = ({ signInUser }) => {
+const LoginPage = ({ signIn, authenticated }) => {
   return (
     <AuthTemplete>
       <Heading as="h3" big>
@@ -38,7 +39,7 @@ const LoginPage = ({ signInUser }) => {
         validationSchema={SignInSchema}
         initialValues={{ email: '', password: '' }}
         onSubmit={values => {
-          signInUser(values.email, values.password);
+          signIn(values.email, values.password);
         }}
       >
         {({
@@ -49,43 +50,52 @@ const LoginPage = ({ signInUser }) => {
           handleBlur,
           handleSubmit,
           /* and other goodies */
-        }) => (
-          <StyledForm onSubmit={handleSubmit}>
-            <Input
-              type="email"
-              name="email"
-              onChange={handleChange}
-              onBlur={handleBlur}
-              value={values.email}
-              placeholder="E-mail address"
-            />
-            <StyledErrors>{errors.email && touched.email && errors.email}</StyledErrors>
-            <Input
-              type="password"
-              name="password"
-              onChange={handleChange}
-              onBlur={handleBlur}
-              value={values.password}
-              placeholder="Password"
-            />
-            <StyledErrors>{errors.password && touched.password && errors.password}</StyledErrors>
-            <Button type="submit">Submit</Button>
-          </StyledForm>
-        )}
+        }) => {
+          if (authenticated) {
+            return <Redirect to={routes.workout}/>
+          }
+          return (
+            <StyledForm onSubmit={handleSubmit}>
+              <Input
+                type="email"
+                name="email"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.email}
+                placeholder="E-mail address"
+              />
+              <StyledErrors>{errors.email && touched.email && errors.email}</StyledErrors>
+              <Input
+                type="password"
+                name="password"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.password}
+                placeholder="Password"
+              />
+              <StyledErrors>{errors.password && touched.password && errors.password}</StyledErrors>
+              <Button type="submit">Submit</Button>
+            </StyledForm>
+          );
+        }}
       </Formik>
     </AuthTemplete>
   );
 };
 LoginPage.propTypes = {
-  signInUser: PropTypes.func.isRequired,
+  signIn: PropTypes.func.isRequired,
+  authenticated:PropTypes.bool,
 };
-const mapStateToProps = ({ state }) => {
-  // const authenticated = authReducer.authenticated;
-  return { ...state };
+LoginPage.defaultProps ={
+    authenticated:false,
+}
+const mapStateToProps = ({ authReducer }) => {
+  const {authenticated} = authReducer
+  return { authenticated };
 };
 
 const mapDispatchToProps = dispatch => ({
-  signInUser: (email, password) => dispatch(signInUser(email, password)),
+  signIn: (email, password) => dispatch(signIn(email, password)),
 });
 
 export default connect(

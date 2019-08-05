@@ -6,6 +6,14 @@ const initialState = {
 
 export default function auth(state = initialState, action) {
   switch (action.type) {
+    case 'SIGN_IN_SUCCESS':
+    return {
+      ...state,
+      authenticated: true,
+      error: null,
+      user: action.payload,
+    };
+
     case 'AUTH_USER':
       return {
         ...state,

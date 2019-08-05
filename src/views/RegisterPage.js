@@ -8,7 +8,7 @@ import Button from 'components/atoms/Button/Button';
 import Heading from 'components/atoms/Heading/Heading';
 
 import { connect } from 'react-redux';
-import { signUpUser } from 'actions';
+import { signUp } from 'actions';
 import * as Yup from 'yup';
 
 const StyledForm = styled(Form)`
@@ -33,7 +33,7 @@ const SignupSchema = Yup.object().shape({
 });
 
 // eslint-disable-next-line no-shadow
-const RegisterPage = ({ signUpUser }) => (
+const RegisterPage = ({ signUp }) => (
   <AuthTemplete>
     <Heading as="h3" big>
       Sign In
@@ -44,7 +44,7 @@ const RegisterPage = ({ signUpUser }) => (
       validationSchema={SignupSchema}
       // eslint-disable-next-line no-undef
       onSubmit={(values, a: actions) => {
-        signUpUser(values.email, values.password);
+        signUp(values.email, values.password);
         a.resetForm();
       }}
     >
@@ -109,12 +109,12 @@ const RegisterPage = ({ signUpUser }) => (
   </AuthTemplete>
 );
 RegisterPage.propTypes = {
-  signUpUser: PropTypes.func.isRequired,
+  signUp: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({ ...state });
 const mapDispatchToProps = dispatch => ({
-  signUpUser: (email, password) => dispatch(signUpUser(email, password)),
+  signUp: (email, password) => dispatch(signUp(email, password)),
 });
 
 export default connect(
