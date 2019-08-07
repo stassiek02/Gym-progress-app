@@ -6,6 +6,7 @@ import Heading from 'components/atoms/Heading/Heading';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { removeItem as removeItemAction } from 'actions';
+import xMark from 'assets/icons/xmark.svg';
 
 const StyledWrapper = styled.div`
   min-height: 300px;
@@ -40,12 +41,19 @@ const StyledButton = styled(Button)`
   position:absolute;
   top:0;
   right:0;
-  padding:0;
+  padding:5px;
   width:30px;
   height:30px;
   font-size:${({ theme }) => theme.fontSize.xl}
   text-align:center;
   cursor:pointer;
+  
+  background-image:url(${xMark});
+  background-position:50%;
+  background-size:70%;
+  background-repeat:no-repeat;
+  
+
 `;
 
 const Card = ({ workout, removeItem }) => {
@@ -56,11 +64,11 @@ const Card = ({ workout, removeItem }) => {
         <Heading as="h2" big>
           {workoutExercises.workout.workoutName}
         </Heading>
-        <StyledButton onClick={() => removeItem(workoutId)}>X</StyledButton>
+        <StyledButton onClick={() => removeItem(workoutId)}></StyledButton>
       </InnerWrapper>
       <ExerciseWrapper>
-        {workoutExercises.workout.exercises.map(item => (
-          <ExerciseBlock parameters={item} />
+        {workoutExercises.workout.exercises.map((item,index) => (
+          <ExerciseBlock parameters={item} key={item.name+index}/>
         ))}
       </ExerciseWrapper>
     </StyledWrapper>

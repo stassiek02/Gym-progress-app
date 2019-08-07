@@ -2,7 +2,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import { Redirect } from 'react-router-dom';
+import { Redirect,Link } from 'react-router-dom';
 import { Formik, Form } from 'formik';
 import AuthTemplete from 'templates/AuthTemplete';
 import { Input } from 'components/atoms/Input/Input';
@@ -13,13 +13,24 @@ import { signIn } from 'actions';
 import {routes} from 'routes';
 import * as Yup from 'yup';
 
+const StyledParagraph = styled.p`
+color:white;
+padding-top:10px;
+`
+const StyledLink = styled(Link)`
+  color:white;
+  text-decoration:none;
+  font-weight:${({theme})=>theme.bold};
+`
 const StyledForm = styled(Form)`
   display: flex;
   flex-direction: column;
   padding: 60px;
 `;
 const StyledErrors = styled.span`
-  color: white;
+  color: ${({theme})=>theme.secondary};
+  margin-bottom:10px;
+  
 `;
 const SignInSchema = Yup.object().shape({
   email: Yup.string()
@@ -75,6 +86,7 @@ const LoginPage = ({ signIn, authenticated }) => {
               />
               <StyledErrors>{errors.password && touched.password && errors.password}</StyledErrors>
               <Button type="submit">Submit</Button>
+              <StyledParagraph>Not registered yet? <StyledLink to={routes.register}> Click here<span role="img" aria-label="highfive">🖐</span></StyledLink></StyledParagraph>
             </StyledForm>
           );
         }}

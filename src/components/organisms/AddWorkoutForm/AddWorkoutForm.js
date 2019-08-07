@@ -21,12 +21,14 @@ const StyledWrapper = styled.div`
   display: grid;
   align-items: center;
   transform: translate(-0, -200%);
-  transition: 0.3s transform ease-in-out;
+  transition: .3s transform ,.3s opacity;
+  opacity:.1;
   z-index: 9999;
   ${({ FormActive }) =>
     FormActive &&
     css`
       transform: translate(0);
+      opacity:1;
     `}
 `;
 const StyledButton = styled(Button)`

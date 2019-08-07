@@ -25,13 +25,16 @@ export const SIGN_UP_REQUEST = 'SIGN_UP_REQUEST';
 export const SIGN_UP_SUCCESS = 'SIGN_UP_SUCCESS';
 export const SIGN_UP_FAILURE = 'SIGN_UP_FAILURE';
 
+export const SIGN_OUT_USER = 'SIGN_OUT_USER';
+
+
 export const fetchRoutine = routine => (dispatch, getState) => {
   const userId = getState().authReducer.user;
   dispatch({ type: FETCH_REQUEST });
   if (userId) {
     firebase
       .database()
-     .ref(userId)
+     .ref(`${userId}/routine`)
       .on('value', snapshot => {
        dispatch({
          type: FETCH_SUCCESS,
@@ -81,6 +84,7 @@ export const removeItem = id => (dispatch, getState) => {
     .catch(error => {
       dispatch({
         type: REMOVE_WORKOUT_FAILURE,
+        payload:error,
       });
     });
 };
@@ -121,18 +125,6 @@ export const signUp = (email, password) => dispatch => {
     });
 };
 
-export function authUser(user) {
-  return {
-    type: 'AUTH_USER',
-    payload: user.uid,
-  };
-}
-export function authError(error) {
-  return {
-    type: 'AUTH_ERROR',
-    payload: error,
-  };
-}
 
 export function signOut() {
   return dispatch => {
@@ -141,22 +133,9 @@ export function signOut() {
       .signOut()
       .then(() => {
         dispatch({
-          type: 'SIGN_OUT_USER',
+          type: SIGN_OUT_USER,
 
         });
       });
-  };
-}
-
-
-export function verifyAuth() {
-  return dispatch => {
-    firebase.auth().onAuthStateChanged(user => {
-      if (user) {
-        dispatch(authUser(user));
-      } else {
-        dispatch(signOut());
-      }
-    });
   };
 }

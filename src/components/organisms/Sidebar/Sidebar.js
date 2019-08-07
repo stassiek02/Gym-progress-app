@@ -20,7 +20,7 @@ const MenuText = styled.span`
   top: 15px;
   transition: 0.3s all;
   color: white;
-  font-size: 4rem;
+  font-size: 3rem;
 `;
 const StyledList = styled.ul`
   margin-top: 60px;
@@ -45,7 +45,7 @@ function SideBar({ signOut }) {
   return (
     <>
       <Wrapper>
-        <MenuText>MENU</MenuText>
+        <MenuText>GymApp</MenuText>
         <StyledList>
           <StyledListItem>Routine</StyledListItem>
           <StyledListItem>Progress</StyledListItem>

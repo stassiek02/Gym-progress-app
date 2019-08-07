@@ -1,13 +1,8 @@
 import {
   ADD_WORKOUT_REQUEST,
   ADD_WORKOUT_SUCCESS,
-  ADD_WORKOUT_FAILURE,
-  REMOVE_WORKOUT_REQUEST,
-  REMOVE_WORKOUT_SUCCESS,
-  REMOVE_WORKOUT_FAILURE,
   FETCH_REQUEST,
   FETCH_SUCCESS,
-  FETCH_FAILURE,
 } from 'actions';
 
 const INITIAL_STATE = {
@@ -26,26 +21,21 @@ const routineReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
       };
+
     case FETCH_REQUEST:
       return {
         ...state,
         isLoading: true,
       };
+
     case FETCH_SUCCESS:
-      if (action.payload !== null)
         return {
           ...state,
-          routine: [action.payload.routine],
+          routine: action.payload,
           isLoading: false,
         };
-    case REMOVE_WORKOUT_SUCCESS:
-      console.log(action)
-      return {
-        ...state,        
-      };
     default:
       return state;
-      
   }
 };
 

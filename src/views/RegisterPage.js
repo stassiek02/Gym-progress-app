@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Formik, Form } from 'formik';
+import { Redirect } from 'react-router-dom';
+import {routes} from 'routes';
 import PropTypes from 'prop-types';
 import AuthTemplete from 'templates/AuthTemplete';
 import { Input } from 'components/atoms/Input/Input';
@@ -33,7 +35,7 @@ const SignupSchema = Yup.object().shape({
 });
 
 // eslint-disable-next-line no-shadow
-const RegisterPage = ({ signUp }) => (
+const RegisterPage = ({ signUp,authenticated }) => (
   <AuthTemplete>
     <Heading as="h3" big>
       Sign In
@@ -58,61 +60,73 @@ const RegisterPage = ({ signUp }) => (
         isSubmitting,
 
         /* and other goodies */
-      }) => (
-        <StyledForm onSubmit={handleSubmit}>
-          <Input
-            type="text"
-            name="username"
-            onChange={handleChange}
-            onBlur={handleBlur}
-            value={values.username}
-            placeholder="Full name"
-          />
-          <StyledErrors>{errors.username && touched.username && errors.username}</StyledErrors>
-          <Input
-            type="email"
-            name="email"
-            onChange={handleChange}
-            onBlur={handleBlur}
-            value={values.email}
-            placeholder="Email Address"
-          />
-          <StyledErrors>{errors.email && touched.email && errors.email}</StyledErrors>
-          <Input
-            type="password"
-            name="password"
-            onChange={handleChange}
-            onBlur={handleBlur}
-            value={values.password}
-            placeholder="Password"
-          />
-          <Input
-            type="password"
-            name="passwordConfirmation"
-            onChange={handleChange}
-            onBlur={handleBlur}
-            value={values.passwordConfirmation}
-            placeholder="Confirm Password"
-          />
+      }) => {
+        if (authenticated) {
+          return <Redirect to={routes.workout} />;
+        }
+        return (
+          <StyledForm onSubmit={handleSubmit}>
+            <Input
+              type="text"
+              name="username"
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.username}
+              placeholder="Full name"
+            />
+            <StyledErrors>{errors.username && touched.username && errors.username}</StyledErrors>
+            <Input
+              type="email"
+              name="email"
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.email}
+              placeholder="Email Address"
+            />
+            <StyledErrors>{errors.email && touched.email && errors.email}</StyledErrors>
+            <Input
+              type="password"
+              name="password"
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.password}
+              placeholder="Password"
+            />
+            <Input
+              type="password"
+              name="passwordConfirmation"
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.passwordConfirmation}
+              placeholder="Confirm Password"
+            />
 
-          <StyledErrors>
-            {errors.passwordConfirmation &&
-              touched.passwordConfirmation &&
-              errors.passwordConfirmation}
-          </StyledErrors>
-          <Button type="submit" disabled={isSubmitting}>
-            Submit
-          </Button>
-        </StyledForm>
-      )}
+            <StyledErrors>
+              {errors.passwordConfirmation &&
+                touched.passwordConfirmation &&
+                errors.passwordConfirmation}
+            </StyledErrors>
+            <Button type="submit" disabled={isSubmitting}>
+              Submit
+            </Button>
+          </StyledForm>
+        );
+      }}
     </Formik>
   </AuthTemplete>
 );
 RegisterPage.propTypes = {
   signUp: PropTypes.func.isRequired,
+  authenticated:PropTypes.bool,
 };
+RegisterPage.defaultProps ={
+  authenticated:false,
+}
 
-const mapStateToProps = state => ({ ...state });
+const mapStateToProps = ({ authReducer }) => {
+  const {authenticated} = authReducer
+  return { authenticated };
+};
 const mapDispatchToProps = dispatch => ({
   signUp: (email, password) => dispatch(signUp(email, password)),
 });

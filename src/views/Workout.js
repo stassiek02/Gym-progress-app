@@ -1,4 +1,4 @@
-import React, {Component } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
@@ -8,7 +8,7 @@ import AddWorkoutForm from 'components/organisms/AddWorkoutForm/AddWorkoutForm';
 import ButtonIcon from 'components/atoms/ButtonIcon/ButtonIcon';
 import PlusIcon from 'assets/icons/plus.svg';
 import GridTemplate from 'templates/GridTemplate';
-import { fetchRoutine as fetchRoutineAction, verifyAuth } from 'actions';
+import { fetchRoutine as fetchRoutineAction } from 'actions';
 
 const AddWorkoutButton = styled(ButtonIcon)`
   border-radius: 50px;
@@ -19,31 +19,23 @@ const AddWorkoutButton = styled(ButtonIcon)`
   background-size: 50%;
 `;
 class Workout extends Component {
+
+  static transformObjToArray(routine) {
+    const routineValues = Object.entries(routine);
+    return routineValues;
+  }
+
   state = {
     isFormOpen: false,
     routineLoaded: false,
   };
 
   componentDidMount() {
-    const {fetchRoutine} = this.props
+    const { fetchRoutine } = this.props;
     fetchRoutine();
-        this.setState({
-          routineLoaded: true,
-        });
-    }
-  
-
-  componentDidUpdate(prevProps) {
-    const {routine,fetchRoutine} = this.props;
-    if (routine.length !== prevProps.routine.length) {
-      fetchRoutine();
-
-        // eslint-disable-next-line react/no-did-update-set-state
-        this.setState({
-          routineLoaded: true,
-        });
-    
-    }
+    this.setState({
+      routineLoaded: true,
+    });
   }
 
   toggleForm = () => {
@@ -52,17 +44,12 @@ class Workout extends Component {
     }));
   };
 
-  transformObjToArray() {
-    const { routine } = this.props;
-    const routineValues = Object.entries(routine[0]);
-    return routineValues;
-  }
-
   renderRoutine() {
     const { routine } = this.props;
-    if (routine.length > 0) {
-      const routineValues = this.transformObjToArray();
-      return routineValues.map(workout => <Card workout={workout} />);
+    if (routine !== null) {
+      const routineValues = Object.entries(routine);
+      console.log(routineValues)
+      return routineValues.map(workout => <Card workout={workout} key={workout[0]}/>);
     }
     return <h1>There isn t any workout added</h1>;
   }
@@ -74,26 +61,25 @@ class Workout extends Component {
         <UserPageTemplate />
         <AddWorkoutForm FormActive={isFormOpen} toggleForm={this.toggleForm} />
         <AddWorkoutButton icon={PlusIcon} onClick={() => this.toggleForm()} />
-        <GridTemplate>{ routineLoaded ? this.renderRoutine() : <h1>loading</h1>}</GridTemplate>
+        <GridTemplate>{routineLoaded ? this.renderRoutine() : <h1>loading</h1>}</GridTemplate>
       </>
     );
   }
 }
 
 const mapStateToProps = ({ routineReducer, authReducer }) => {
-  const {routine} = routineReducer;
-  const {authenticated} = authReducer
+  const { routine } = routineReducer;
+  const { authenticated } = authReducer;
   const userId = authReducer.user;
 
   return { routine, authenticated, userId };
 };
 const mapDispatchToProps = dispatch => ({
-  verifyAuth: () => dispatch(verifyAuth()),
   fetchRoutine: () => dispatch(fetchRoutineAction()),
 });
 Workout.propTypes = {
   routine: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
-  fetchRoutine:PropTypes.func.isRequired,
+  fetchRoutine: PropTypes.func.isRequired,
 };
 export default connect(
   mapStateToProps,
