@@ -1,7 +1,5 @@
 # Gym Progress App 🏋️
 
-> Traditional [pictionary](https://en.wikipedia.org/wiki/Pictionary) game moved to online experience!
-
 ![](screenshot.png)
 
 
