@@ -1,6 +1,6 @@
 # Gym Progress App 🏋️
 
-![](screenshot.png)
+![](screenshot.jpg)
 
 
 ## How to start tracking
