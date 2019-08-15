@@ -9,6 +9,11 @@ const StyledWrapper = styled.div`
   background-color: transparent;
   min-width: 150px;
   margin: 5px;
+
+  @media (max-width: 768px) {
+    min-width: 70px;
+    max-width: 120px;
+  }
 `;
 const StyledHeading = styled(Heading)`
   text-align: center;
@@ -28,7 +33,8 @@ export const ExerciseBlock = ({ parameters }) => (
   <StyledWrapper>
     <StyledHeading big>{parameters.name}</StyledHeading>
     <StyledParagraph>
-      {parameters.sets} sets of {parameters.reps}
+      {parameters.sets} sets of {parameters.reps}{' '}
+      {parameters.weight ? `with ${parameters.weight}kg` : null}
     </StyledParagraph>
   </StyledWrapper>
 );

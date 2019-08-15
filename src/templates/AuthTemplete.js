@@ -12,7 +12,8 @@ const StyledWrapper = styled.div`
 `;
 
 const StyledAuthCard = styled.div`
-  width: 400px;
+  min-width: 300px;
+  max-width:420px;
   height: auto;
   background-color: ${({ theme }) => theme.primary};
   display: flex;

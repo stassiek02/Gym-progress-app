@@ -24,6 +24,13 @@ const StyledWrapper = styled.div`
   transition: .3s transform ,.3s opacity;
   opacity:.1;
   z-index: 9999;
+
+  @media(max-width: 768px) {
+    width:300px;
+    left: 10%;
+    top:10%;
+  }
+
   ${({ FormActive }) =>
     FormActive &&
     css`
@@ -44,6 +51,10 @@ const ExercisesList = styled.div`
   display: grid;
   grid-template-columns: auto auto auto;
   min-height: 100px;
+
+  @media(max-width:768px){
+    grid-template-columns:auto auto;
+  }
 `;
 class AddWorkout extends Component {
   state = {
@@ -73,9 +84,9 @@ class AddWorkout extends Component {
       workoutName,
       exercises,
     };
+    
     if (day.exercises.length > 0) {
       addWorkout(day);
-      // to na końcu
       this.setState({
         Workout: day,
         exercises: [],

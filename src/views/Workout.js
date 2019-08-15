@@ -13,13 +13,13 @@ import { fetchRoutine as fetchRoutineAction } from 'actions';
 const AddWorkoutButton = styled(ButtonIcon)`
   border-radius: 50px;
   background-color: ${({ theme }) => theme.secondary};
-  position: absolute;
+  position: fixed;
   bottom: 30px;
   right: 30px;
   background-size: 50%;
+  z-index: 999;
 `;
 class Workout extends Component {
-
   static transformObjToArray(routine) {
     const routineValues = Object.entries(routine);
     return routineValues;
@@ -48,8 +48,10 @@ class Workout extends Component {
     const { routine } = this.props;
     if (routine !== null) {
       const routineValues = Object.entries(routine);
-      console.log(routineValues)
-      return routineValues.map(workout => <Card workout={workout} key={workout[0]}/>);
+
+      return routineValues.map((item) =>(
+        <Card  key={item[0]} exercises={item[1].workout.exercises} id={item[0]} name={item[1].workout.workoutName}/>
+      ))
     }
     return <h1>There isn t any workout added</h1>;
   }
@@ -67,12 +69,9 @@ class Workout extends Component {
   }
 }
 
-const mapStateToProps = ({ routineReducer, authReducer }) => {
+const mapStateToProps = ({ routineReducer }) => {
   const { routine } = routineReducer;
-  const { authenticated } = authReducer;
-  const userId = authReducer.user;
-
-  return { routine, authenticated, userId };
+  return { routine };
 };
 const mapDispatchToProps = dispatch => ({
   fetchRoutine: () => dispatch(fetchRoutineAction()),

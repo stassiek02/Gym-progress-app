@@ -5,6 +5,10 @@ import PropTypes from 'prop-types';
 
 const StyledWrapper = styled.div`
   padding-left: 150px;
+
+  @media(max-width:768px){
+    padding-left:0;
+  }
 `;
 
 

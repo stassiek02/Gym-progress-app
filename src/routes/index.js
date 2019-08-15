@@ -3,4 +3,5 @@ export const routes = {
   workout: '/workout',
   register:'/register',
   login: '/login',
+  sessions:'/sessions',
 };

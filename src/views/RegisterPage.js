@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Formik, Form } from 'formik';
-import { Redirect } from 'react-router-dom';
+import { Redirect,Link } from 'react-router-dom';
 import {routes} from 'routes';
 import PropTypes from 'prop-types';
 import AuthTemplete from 'templates/AuthTemplete';
@@ -13,13 +13,23 @@ import { connect } from 'react-redux';
 import { signUp } from 'actions';
 import * as Yup from 'yup';
 
+const StyledParagraph = styled.p`
+color:white;
+padding-top:10px;
+text-align:center;
+`
+const StyledLink = styled(Link)`
+  color:white;
+  text-decoration:none;
+  font-weight:${({theme})=>theme.bold};
+`
 const StyledForm = styled(Form)`
   display: flex;
   flex-direction: column;
   padding: 60px;
 `;
 const StyledErrors = styled.span`
-  color: white;
+  color: red;
 `;
 const SignupSchema = Yup.object().shape({
   username: Yup.string()
@@ -35,12 +45,12 @@ const SignupSchema = Yup.object().shape({
 });
 
 // eslint-disable-next-line no-shadow
-const RegisterPage = ({ signUp,authenticated }) => (
+const RegisterPage = ({ signUp,authenticated,error }) => (
   <AuthTemplete>
     <Heading as="h3" big>
       Sign In
     </Heading>
-
+    {error?<StyledErrors>Something went wrong</StyledErrors>:null}
     <Formik
       initialValues={{ email: '', password: '', passwordConfirmation: '', username: '' }}
       validationSchema={SignupSchema}
@@ -58,7 +68,7 @@ const RegisterPage = ({ signUp,authenticated }) => (
         handleBlur,
         handleSubmit,
         isSubmitting,
-
+        
         /* and other goodies */
       }) => {
         if (authenticated) {
@@ -109,10 +119,14 @@ const RegisterPage = ({ signUp,authenticated }) => (
             <Button type="submit" disabled={isSubmitting}>
               Submit
             </Button>
+            <StyledParagraph><StyledLink to={routes.login}>Click here to sign in <span role="img" aria-label="highfive">🖐</span></StyledLink></StyledParagraph>
+            
           </StyledForm>
+          
         );
       }}
     </Formik>
+    
   </AuthTemplete>
 );
 RegisterPage.propTypes = {
@@ -124,8 +138,8 @@ RegisterPage.defaultProps ={
 }
 
 const mapStateToProps = ({ authReducer }) => {
-  const {authenticated} = authReducer
-  return { authenticated };
+  const {authenticated,error} = authReducer
+  return { authenticated,error };
 };
 const mapDispatchToProps = dispatch => ({
   signUp: (email, password) => dispatch(signUp(email, password)),

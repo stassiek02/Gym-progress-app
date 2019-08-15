@@ -7,8 +7,8 @@ import storage from 'redux-persist/lib/storage' // defaults to localStorage for 
 const persistConfig ={
     key:'root',
     storage,
-    blacklist:['routineReducer'],
 }
+
 const persistedReducer = persistReducer(persistConfig,rootReducer);
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 

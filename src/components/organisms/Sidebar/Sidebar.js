@@ -1,9 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
 import Button from 'components/atoms/Button/Button';
+import {Link} from 'react-router-dom';
 import { signOut } from 'actions';
 import { connect } from 'react-redux';
+import {routes} from 'routes';
 
+const StyledLink = styled(Link)`
+  color:white;
+  text-decoration:none;
+  font-weight:${({theme})=>theme.bold};
+`
 const Wrapper = styled.nav`
   position: fixed;
   width: 150px;
@@ -12,6 +19,12 @@ const Wrapper = styled.nav`
   padding: 25px 0;
   height: 100vh;
   background-color: ${({ theme }) => theme.primary};
+
+ @media(max-width: 768px) {
+    width:0px;
+    display:none;
+    
+  }
 `;
 
 const MenuText = styled.span`
@@ -47,8 +60,8 @@ function SideBar({ signOut }) {
       <Wrapper>
         <MenuText>GymApp</MenuText>
         <StyledList>
-          <StyledListItem>Routine</StyledListItem>
-          <StyledListItem>Progress</StyledListItem>
+          <StyledListItem><StyledLink to={routes.workout}>Workout</StyledLink></StyledListItem>
+           <StyledListItem><StyledLink to={routes.sessions}>Sessions</StyledLink></StyledListItem>
         </StyledList>
         <Button onClick={() => signOut()}>Log out</Button>
       </Wrapper>

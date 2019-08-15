@@ -18,9 +18,9 @@ const StyledWrapper = styled.div`
   }
 
   @media (max-width: 860px) {
-    width: 35vw;
+    width: 70vw;
   }
-  @media (max-width: 120px) {
+  @media (min-width: 1200px) {
     width: 40vw;
   }
 `;
@@ -56,18 +56,17 @@ const StyledButton = styled(Button)`
 
 `;
 
-const Card = ({ workout, removeItem }) => {
-  const [workoutId, workoutExercises] = workout;
+const Card = ({removeItem,exercises,id,name }) => {
   return (
     <StyledWrapper>
       <InnerWrapper>
         <Heading as="h2" big>
-          {workoutExercises.workout.workoutName}
+          {name}
         </Heading>
-        <StyledButton onClick={() => removeItem(workoutId)}></StyledButton>
+        <StyledButton onClick={() => removeItem(id)}></StyledButton>
       </InnerWrapper>
       <ExerciseWrapper>
-        {workoutExercises.workout.exercises.map((item,index) => (
+        {exercises.map((item,index) => (
           <ExerciseBlock parameters={item} key={item.name+index}/>
         ))}
       </ExerciseWrapper>
