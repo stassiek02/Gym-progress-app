@@ -5,7 +5,6 @@ import { ExerciseBlock } from 'components/atoms/ExerciseBlock/ExerciseBlock';
 import Heading from 'components/atoms/Heading/Heading';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { removeItem as removeItemAction } from 'actions';
 import xMark from 'assets/icons/xmark.svg';
 
 const StyledWrapper = styled.div`
@@ -57,6 +56,7 @@ const StyledButton = styled(Button)`
 `;
 
 const Card = ({removeItem,exercises,id,name }) => {
+  
   return (
     <StyledWrapper>
       <InnerWrapper>
@@ -78,11 +78,6 @@ Card.propTypes = {
   // workout: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.array, PropTypes.string])).isRequired,
   removeItem: PropTypes.func.isRequired,
 };
-const mapDispatchToProps = dispatch => ({
-  removeItem: id => dispatch(removeItemAction(id)),
-});
 
-export default connect(
-  null,
-  mapDispatchToProps,
-)(Card);
+
+export default Card;

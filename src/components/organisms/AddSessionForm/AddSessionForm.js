@@ -122,10 +122,12 @@ class AddSessionForm extends Component {
 
   renderWorkoutsOptions() {
     const { routine } = this.props;
-    const workoutOptions = Object.entries(routine);
+    if(routine){
+      const workoutOptions = Object.entries(routine);
     return workoutOptions.map(item => (
       <option value={item[0]}>{item[1].workout.workoutName}</option>
     ));
+    }
   }
 
   handleSelectChange = event => {
@@ -168,7 +170,6 @@ class AddSessionForm extends Component {
               validationSchema={ValidationSchema}
               onSubmit={values => {
                 if(values.weight){
-                  console.log(values)
                 this.createSessionObject(values);
                 addSession(initialValues);
                 toggleForm();

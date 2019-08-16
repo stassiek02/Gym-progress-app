@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 import Card from 'components/molecules/Card/Card';
 import UserPageTemplate from 'templates/UserPageTemplate';
-import { fetchRoutine as fetchRoutineAction , fetchSessions as fetchSessionsAction } from 'actions';
+import {  fetchSessions as fetchSessionsAction,removeSession as removeSessionAction } from 'actions';
 import GridTemplate from 'templates/GridTemplate';
 import ButtonIcon from 'components/atoms/ButtonIcon/ButtonIcon';
 import PlusIcon from 'assets/icons/plus.svg';
@@ -37,16 +37,14 @@ class Sessions extends Component {
   };
 
   renderSessions(){
-    const {sessions} = this.props;
+    const {sessions,removeSession} = this.props;
     if (sessions) {
       const sessionValues = Object.entries(sessions);
-      console.log(sessionValues)
      return sessionValues.map((item) =>(
-        console.log(item),
-        <Card workout={item} key={item[0]} exercises={item[1].session} id={item[0]} name="w fazie testów"/>
+        <Card workout={item} key={item[0]} exercises={item[1].session} id={item[0]} name={`Session from ${item[1].createdAt}`} removeItem={removeSession}/>
       ))
     }
-    return <h1>There isn t any workout added</h1>;
+    return <h1>Please add your routine first</h1>;
   }
 
   render() {
@@ -70,6 +68,7 @@ const mapStateToProps = ({ routineReducer }) => {
 };
 const mapDispatchToProps = dispatch => ({
   fetchSessions: () => dispatch(fetchSessionsAction()),
+  removeSession: id => dispatch(removeSessionAction(id)),
 });
 export default connect(
   mapStateToProps,

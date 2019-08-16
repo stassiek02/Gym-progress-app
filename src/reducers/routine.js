@@ -53,6 +53,7 @@ const routineReducer = (state = INITIAL_STATE, action) => {
       };
 
     case FETCH_SESSIONS_SUCCESS:
+      console.log(action.payload)
         return {
           ...state,
           sessions: action.payload,

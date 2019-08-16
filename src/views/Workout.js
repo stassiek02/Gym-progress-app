@@ -8,7 +8,7 @@ import AddWorkoutForm from 'components/organisms/AddWorkoutForm/AddWorkoutForm';
 import ButtonIcon from 'components/atoms/ButtonIcon/ButtonIcon';
 import PlusIcon from 'assets/icons/plus.svg';
 import GridTemplate from 'templates/GridTemplate';
-import { fetchRoutine as fetchRoutineAction } from 'actions';
+import { fetchRoutine as fetchRoutineAction,removeWorkout as removeWorkoutAction } from 'actions';
 
 const AddWorkoutButton = styled(ButtonIcon)`
   border-radius: 50px;
@@ -45,12 +45,12 @@ class Workout extends Component {
   };
 
   renderRoutine() {
-    const { routine } = this.props;
+    const { routine,removeWorkout } = this.props;
     if (routine !== null) {
       const routineValues = Object.entries(routine);
 
       return routineValues.map((item) =>(
-        <Card  key={item[0]} exercises={item[1].workout.exercises} id={item[0]} name={item[1].workout.workoutName}/>
+        <Card  key={item[0]} exercises={item[1].workout.exercises} id={item[0]} name={item[1].workout.workoutName} removeItem={removeWorkout}/>
       ))
     }
     return <h1>There isn t any workout added</h1>;
@@ -75,6 +75,7 @@ const mapStateToProps = ({ routineReducer }) => {
 };
 const mapDispatchToProps = dispatch => ({
   fetchRoutine: () => dispatch(fetchRoutineAction()),
+  removeWorkout: id => dispatch(removeWorkoutAction(id)),
 });
 Workout.propTypes = {
   routine: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,

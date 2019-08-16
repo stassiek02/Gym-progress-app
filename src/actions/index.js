@@ -94,8 +94,11 @@ export const addWorkout = workout => (dispatch, getState) => {
     });
 };
 
-export const addSession = session => (dispatch, getState) => {
+export const addSession = (session,timestampObj) => (dispatch, getState) => {
   const userId = getState().authReducer.user;
+  const currentDate = new Date;
+  const createdAt = `${currentDate.getDate()}.${currentDate.getMonth()+1}.${currentDate.getFullYear()}`
+  
   dispatch({ type: ADD_SESSION_REQUEST });
   firebase
     .database()
@@ -103,6 +106,7 @@ export const addSession = session => (dispatch, getState) => {
     .child('sessions')
     .push({
       session,
+      createdAt,
     })
     .then(data => {
       dispatch({
@@ -118,9 +122,29 @@ export const addSession = session => (dispatch, getState) => {
     });
 };
 
-export const removeItem = id => (dispatch, getState) => {
+export const removeWorkout = id => (dispatch, getState) => {
   const userId = getState().authReducer.user;
   const workoutRef = firebase.database().ref(`${userId}/routine/${id}`);
+  dispatch({ type: REMOVE_WORKOUT_REQUEST });
+  workoutRef
+    .remove()
+    .then(() => {
+      dispatch({
+        type: REMOVE_WORKOUT_SUCCESS,
+        payload:id,
+      });
+    })
+    .catch(error => {
+      dispatch({
+        type: REMOVE_WORKOUT_FAILURE,
+        payload:error,
+      });
+    });
+};
+
+export const removeSession = id => (dispatch, getState) => {
+  const userId = getState().authReducer.user;
+  const workoutRef = firebase.database().ref(`${userId}/sessions/${id}`);
   dispatch({ type: REMOVE_WORKOUT_REQUEST });
   workoutRef
     .remove()
