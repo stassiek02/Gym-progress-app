@@ -1,6 +1,7 @@
 import styled, { css } from 'styled-components';
 
 const Button = styled.button`
+  border-radius:3px;
   display: block;
   font-family: 'Montserrat';
   font-size: ${({ theme }) => theme.fontSize.m};

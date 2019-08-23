@@ -45,12 +45,12 @@ const SignupSchema = Yup.object().shape({
 });
 
 // eslint-disable-next-line no-shadow
-const RegisterPage = ({ signUp,authenticated,error }) => (
+const RegisterPage = ({ signUp,authenticated,errorReducer}) => (
   <AuthTemplete>
     <Heading as="h3" big>
       Sign In
     </Heading>
-    {error?<StyledErrors>Something went wrong</StyledErrors>:null}
+    {errorReducer.error?<StyledErrors>Something went wrong</StyledErrors>:null}
     <Formik
       initialValues={{ email: '', password: '', passwordConfirmation: '', username: '' }}
       validationSchema={SignupSchema}
@@ -101,6 +101,8 @@ const RegisterPage = ({ signUp,authenticated,error }) => (
               onBlur={handleBlur}
               value={values.password}
               placeholder="Password"
+              autocomplete="new-password"
+              required
             />
             <Input
               type="password"
@@ -109,6 +111,8 @@ const RegisterPage = ({ signUp,authenticated,error }) => (
               onBlur={handleBlur}
               value={values.passwordConfirmation}
               placeholder="Confirm Password"
+              autocomplete="new-password"
+              required
             />
 
             <StyledErrors>
@@ -137,9 +141,9 @@ RegisterPage.defaultProps ={
   authenticated:false,
 }
 
-const mapStateToProps = ({ authReducer }) => {
-  const {authenticated,error} = authReducer
-  return { authenticated,error };
+const mapStateToProps = ({ authReducer,errorReducer }) => {
+  const {authenticated} = authReducer
+  return { authenticated,errorReducer };
 };
 const mapDispatchToProps = dispatch => ({
   signUp: (email, password) => dispatch(signUp(email, password)),

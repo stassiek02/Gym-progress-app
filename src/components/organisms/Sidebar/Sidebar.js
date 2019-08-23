@@ -1,72 +1,136 @@
-import React from 'react';
-import styled from 'styled-components';
+import React, { useState } from 'react';
+import styled, { css } from 'styled-components';
 import Button from 'components/atoms/Button/Button';
-import {Link} from 'react-router-dom';
+import logout from 'assets/icons/logout.svg';
+import Hamburger from 'components/atoms/Hamburger/Hamburger';
+import { Link } from 'react-router-dom';
 import { signOut } from 'actions';
 import { connect } from 'react-redux';
-import {routes} from 'routes';
+import { routes } from 'routes';
+import PropTypes from 'prop-types';
 
 const StyledLink = styled(Link)`
-  color:white;
-  text-decoration:none;
-  font-weight:${({theme})=>theme.bold};
-`
+  color: white;
+  text-decoration: none;
+  font-weight: ${({ theme }) => theme.bold};
+  &:hover {
+    color: #f1f1f1f1;
+  }
+`;
 const Wrapper = styled.nav`
+  border-radius: 2px;
   position: fixed;
-  width: 150px;
+  width: 100vw;
   top: 0;
   left: 0;
-  padding: 25px 0;
-  height: 100vh;
+  height: 50px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.1);
   background-color: ${({ theme }) => theme.primary};
-
- @media(max-width: 768px) {
-    width:0px;
-    display:none;
-    
-  }
+  z-index: 99;
 `;
 
 const MenuText = styled.span`
-  position: relative;
-  left: 5px;
-  top: 15px;
-  transition: 0.3s all;
-  color: white;
-  font-size: 3rem;
+  font-size:25px;
+  margin-left:40px;
+  color:white;
+  @media(max-width:560px){
+    margin:0 auto;
+    z-index:999;
+  }
+ }
 `;
 const StyledList = styled.ul`
-  margin-top: 60px;
-  list-style: none;
-  padding: 0;
-  z-index: 99999;
-`;
-const StyledListItem = styled.li`
-  padding:15px 0;
-  border-bottom:1px solid white;
-  text-align:center;
-  transition:.2s background-color;
-  color:white;
-  font-size:${({ theme }) => theme.fontSize.l};
+  margin:0;
+  height:100%;
 
-  &:hover{
-    background-color:${({ theme }) => theme.tertiary};
+   @media(max-width:560px){
+    position:absolute;
+    height: 800px;
+    width:100%;
+    display:flex;
+    flex-direction:column;
+    top:0;
+    background:${({ theme }) => theme.primary};
+    justify-content:center;
+    z-index:98;
+    transition:.2s transform;
+    overflow:hidden;
+    transform:translateX(-100%);
+    padding:0;
+
+  ${({ isActive }) =>
+      isActive && css`
+        transform: translate(0);
+      `}
+
+   }
+
+    `; 
+
+const LogoutButton = styled(Button)`
+  height:100%;
+  width:150px;
+  background-image:url(${logout});
+  background-repeat:no-repeat;
+  background-size:20%;
+  background-position:5%;
+
+  @media(max-width:560px){
+     height:50px;
+   } 
+ }
+`;
+
+const StyledListItem = styled.li`
+  height: 100%;
+  padding-left: 20px;
+  display: inline-block;
+  font-size: ${({ theme }) => theme.fontSize.l};
+
+  @media (max-width: 560px) {
+    text-align: center;
+    height: 50px;
+    padding: 10px;
   }
 `;
 
 function SideBar({ signOut }) {
+  const [active, setActive] = useState(false);
+
+  const ToggleMenu = ()=>{
+    setActive(!active)
+  }
+
   return (
     <>
       <Wrapper>
+        <Hamburger isActive={active} onClick={() => ToggleMenu()}></Hamburger>
         <MenuText>GymApp</MenuText>
-        <StyledList>
-          <StyledListItem><StyledLink to={routes.workout}>Workout</StyledLink></StyledListItem>
-           <StyledListItem><StyledLink to={routes.sessions}>Sessions</StyledLink></StyledListItem>
+        <StyledList isActive={active}>
+          <StyledListItem>
+            <StyledLink to={routes.workout} onClick={() => ToggleMenu()}>
+              Workout
+            </StyledLink>
+          </StyledListItem>
+          <StyledListItem>
+            <StyledLink to={routes.sessions} onClick={() => ToggleMenu()}>
+              Sessions
+            </StyledLink>
+          </StyledListItem>
+          <StyledListItem>
+            <LogoutButton onClick={() => signOut()}>Log out</LogoutButton>
+          </StyledListItem>
         </StyledList>
-        <Button onClick={() => signOut()}>Log out</Button>
       </Wrapper>
     </>
   );
+}
+SideBar.propTypes={
+    signOut:PropTypes.func.isRequired,
 }
 
 const mapDispatchToProps = dispatch => ({

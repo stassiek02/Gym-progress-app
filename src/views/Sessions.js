@@ -3,12 +3,15 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 import Card from 'components/molecules/Card/Card';
 import UserPageTemplate from 'templates/UserPageTemplate';
-import {  fetchSessions as fetchSessionsAction,removeSession as removeSessionAction } from 'actions';
+import {
+  fetchSessions as fetchSessionsAction,
+  removeSession as removeSessionAction,
+} from 'actions';
 import GridTemplate from 'templates/GridTemplate';
 import ButtonIcon from 'components/atoms/ButtonIcon/ButtonIcon';
 import PlusIcon from 'assets/icons/plus.svg';
 import AddSessionForm from 'components/organisms/AddSessionForm/AddSessionForm';
-
+import PropTypes from 'prop-types';
 
 const AddWorkoutButton = styled(ButtonIcon)`
   border-radius: 50px;
@@ -17,7 +20,7 @@ const AddWorkoutButton = styled(ButtonIcon)`
   bottom: 30px;
   right: 30px;
   background-size: 50%;
-  z-index: 999;
+  z-index: 99;
 `;
 
 class Sessions extends Component {
@@ -30,26 +33,33 @@ class Sessions extends Component {
       sessionLoaded: true,
     });
   }
+
   toggleForm = () => {
     this.setState(prevState => ({
       isFormOpen: !prevState.isFormOpen,
     }));
   };
 
-  renderSessions(){
-    const {sessions,removeSession} = this.props;
+  renderSessions() {
+    const { sessions, removeSession } = this.props;
     if (sessions) {
       const sessionValues = Object.entries(sessions);
-     return sessionValues.map((item) =>(
-        <Card workout={item} key={item[0]} exercises={item[1].session} id={item[0]} name={`Session from ${item[1].createdAt}`} removeItem={removeSession}/>
-      ))
+      return sessionValues.map(item => (
+        <Card
+          workout={item}
+          key={item[0]}
+          exercises={item[1].session}
+          id={item[0]}
+          name={`Session from ${item[1].createdAt}`}
+          removeItem={removeSession}
+        />
+      ));
     }
     return <h1>Please add your routine first</h1>;
   }
 
   render() {
-    const { sessions } = this.props;
-    const { isFormOpen,sessionLoaded } = this.state;
+    const { isFormOpen, sessionLoaded } = this.state;
     return (
       <>
         <UserPageTemplate />
@@ -61,10 +71,14 @@ class Sessions extends Component {
     );
   }
 }
-
+Sessions.propTypes = {
+  sessions: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
+  removeSession: PropTypes.func.isRequired,
+  fetchSessions:PropTypes.func.isRequired,
+};
 const mapStateToProps = ({ routineReducer }) => {
-  const { routine,sessions } = routineReducer;
-  return { routine,sessions };
+  const { routine, sessions } = routineReducer;
+  return { routine, sessions };
 };
 const mapDispatchToProps = dispatch => ({
   fetchSessions: () => dispatch(fetchSessionsAction()),

@@ -25,8 +25,11 @@ const StyledWrapper = styled.div`
   opacity:.1;
   z-index: 9999;
 
+  @media(max-width:1200px){
+    left:25%;
+  }
   @media(max-width: 768px) {
-    width:300px;
+    width:80vw;
     left: 10%;
     top:10%;
   }

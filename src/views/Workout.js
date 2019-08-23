@@ -17,8 +17,12 @@ const AddWorkoutButton = styled(ButtonIcon)`
   bottom: 30px;
   right: 30px;
   background-size: 50%;
-  z-index: 999;
+  z-index: 99;
 `;
+const StyledHeading = styled.h1`
+width:50vw;
+margin-top :15%;
+`
 class Workout extends Component {
   static transformObjToArray(routine) {
     const routineValues = Object.entries(routine);
@@ -53,7 +57,7 @@ class Workout extends Component {
         <Card  key={item[0]} exercises={item[1].workout.exercises} id={item[0]} name={item[1].workout.workoutName} removeItem={removeWorkout}/>
       ))
     }
-    return <h1>There isn t any workout added</h1>;
+    return <StyledHeading>Fill the gap and add some workouts ❤️</StyledHeading>;
   }
 
   render() {

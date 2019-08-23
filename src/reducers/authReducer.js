@@ -1,8 +1,7 @@
-import { SIGN_IN_SUCCESS,SIGN_IN_FAILURE,SIGN_UP_SUCCESS,SIGN_UP_FAILURE, SIGN_OUT_USER} from 'actions';
+import { SIGN_IN_SUCCESS,SIGN_UP_SUCCESS,SIGN_OUT_USER} from 'actions';
 
 const initialState = {
   authenticated: false,
-  error: null,
   user: '',
 };
 
@@ -15,11 +14,6 @@ export default function auth(state = initialState, action) {
         error: null,
         user: action.payload,
       };
-      case SIGN_IN_FAILURE:
-      return {
-        ...state,
-        error: action.payload.message,
-      };
       case SIGN_UP_SUCCESS:
       return {
         ...state,
@@ -27,11 +21,7 @@ export default function auth(state = initialState, action) {
         error: null,
         user: action.payload,
       };
-       case SIGN_UP_FAILURE:
-      return {
-        ...state,
-        error: action.payload,
-      };
+       
       
     case SIGN_OUT_USER:
       return {

@@ -19,15 +19,16 @@ const StyledGrid = styled.div`
 
   @media (max-width: 1200px) {
     grid-template-columns: repeat(2, 0.5fr);
-    grid-gap: 2vw;
+    
   }
-  @media (max-width: 860px) {
-    grid-template-columns: repeat(1, 0.5fr);
+  @media (max-width: 1100px) {
+    grid-template-columns: auto;
     grid-gap: 2vw;
   }
   @media (min-width: 2000px) {
-    grid-template-columns: repeat(2, 0.5fr);
+    grid-template-columns: auto auto auto;
     grid-gap: 2vw;
+
   }
 `;
 

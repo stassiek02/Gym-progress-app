@@ -96,7 +96,7 @@ export const addWorkout = workout => (dispatch, getState) => {
 
 export const addSession = (session,timestampObj) => (dispatch, getState) => {
   const userId = getState().authReducer.user;
-  const currentDate = new Date;
+  const currentDate = new Date();
   const createdAt = `${currentDate.getDate()}.${currentDate.getMonth()+1}.${currentDate.getFullYear()}`
   
   dispatch({ type: ADD_SESSION_REQUEST });

@@ -4,7 +4,8 @@ import Sidebar from 'components/organisms/Sidebar/Sidebar';
 import PropTypes from 'prop-types';
 
 const StyledWrapper = styled.div`
-  padding-left: 150px;
+    margin-top:100px;
+  
 
   @media(max-width:768px){
     padding-left:0;

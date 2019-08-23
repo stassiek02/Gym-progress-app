@@ -4,23 +4,26 @@ import Button from 'components/atoms/Button/Button';
 import { ExerciseBlock } from 'components/atoms/ExerciseBlock/ExerciseBlock';
 import Heading from 'components/atoms/Heading/Heading';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import xMark from 'assets/icons/xmark.svg';
 
 const StyledWrapper = styled.div`
+
+  border-radius:3px;
   min-height: 300px;
   background-color: ${({ theme }) => theme.primary};
   transition: 0.2s transform, box-shadow 0.2s;
+  box-shadow:0 10px 15px -3px rgba(0,0,0,.4), 0 4px 6px -2px rgba(0,0,0,.4);
+  overflow:hidden;
   &:hover {
     transform: translateY(-3px);
-    box-shadow: 0 10px 30px -10px hsla(0, 0%, 0%, 0.2);
+    box-shadow: 0 10px 20px -3px rgba(0,0,0,.5), 0 4px 10px -2px rgba(0,0,0,.5);
   }
 
   @media (max-width: 860px) {
     width: 70vw;
   }
   @media (min-width: 1200px) {
-    width: 40vw;
+    width: 100%;
   }
 `;
 const ExerciseWrapper = styled.div`
@@ -46,7 +49,7 @@ const StyledButton = styled(Button)`
   font-size:${({ theme }) => theme.fontSize.xl}
   text-align:center;
   cursor:pointer;
-  
+  border-radius:2px;
   background-image:url(${xMark});
   background-position:50%;
   background-size:70%;

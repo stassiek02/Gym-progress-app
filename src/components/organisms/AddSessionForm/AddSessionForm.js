@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Input } from 'components/atoms/Input/Input';
 import Select from 'components/atoms/Select/Select'
 import Button from 'components/atoms/Button/Button';
 import { Formik, Field, Form, FieldArray,getIn} from 'formik';
@@ -24,7 +23,7 @@ const StyledWrapper = styled.div`
   z-index: 9999;
 
   @media (max-width: 768px) {
-    width: 300px;
+    width: 80vw;
     left: 10%;
     top: 10%;
   }
@@ -48,6 +47,7 @@ const StyledSpan = styled.span`
   font-weight:${({theme})=>theme.normal};
   font-size:${({theme})=>theme.fontSize.xl}
   margin-bottom:80px;
+  padding:0 20px;
 `
 const StyledField = styled(Field)`
   margin: 10px 10px;

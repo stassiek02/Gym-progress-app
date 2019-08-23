@@ -25,7 +25,7 @@ const StyledLink = styled(Link)`
 const StyledForm = styled(Form)`
   display: flex;
   flex-direction: column;
-  padding: 60px;
+  padding: 40px 60px;
 `;
 const StyledErrors = styled.span`
   color: ${({theme})=>theme.secondary};
@@ -40,12 +40,13 @@ const SignInSchema = Yup.object().shape({
     .min(6, 'Too Short!')
     .required('Password is required'),
 });
-const LoginPage = ({ signIn, authenticated }) => {
+const LoginPage = ({ signIn, authenticated,errorReducer }) => {
   return (
     <AuthTemplete>
       <Heading as="h3" big>
         Sign In
       </Heading>
+      {errorReducer.error ? <StyledErrors>Something went wrong, Try again</StyledErrors> : null}
       <Formik
         validationSchema={SignInSchema}
         initialValues={{ email: '', password: '' }}
@@ -74,6 +75,8 @@ const LoginPage = ({ signIn, authenticated }) => {
                 onBlur={handleBlur}
                 value={values.email}
                 placeholder="E-mail address"
+                autocomplete="email"
+                required
               />
               <StyledErrors>{errors.email && touched.email && errors.email}</StyledErrors>
               <Input
@@ -83,6 +86,8 @@ const LoginPage = ({ signIn, authenticated }) => {
                 onBlur={handleBlur}
                 value={values.password}
                 placeholder="Password"
+                autocomplete="password"
+                required
               />
               <StyledErrors>{errors.password && touched.password && errors.password}</StyledErrors>
               <Button type="submit">Submit</Button>
@@ -101,9 +106,9 @@ LoginPage.propTypes = {
 LoginPage.defaultProps ={
     authenticated:false,
 }
-const mapStateToProps = ({ authReducer }) => {
+const mapStateToProps = ({ authReducer,errorReducer }) => {
   const {authenticated} = authReducer
-  return { authenticated };
+  return { authenticated,errorReducer };
 };
 
 const mapDispatchToProps = dispatch => ({
