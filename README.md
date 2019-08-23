@@ -7,7 +7,9 @@
 
 ![](session.JPG)
 
-![](mobile.jpg)
+<p align="center">
+  <img width="460"  src="https://github.com/stassiek02/Gym-progress-app/raw/master/mobile.jpg">
+</p>
 
 
 
