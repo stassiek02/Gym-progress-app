@@ -1,8 +1,9 @@
 # Gym Progress App 🏋️
 
-![](screenshotEmpty.JPG)
-![](screenshotFilled.JPG)
-![](session.JPG)
+![Empty view](screenshotEmpty.JPG)
+![View with some workouts](screenshotFilled.JPG)
+![Session view](session.JPG)
+![Mobile view](mobile.JPG)
 [Demo](https://gym-tracker-app.netlify.com/)
 
 
