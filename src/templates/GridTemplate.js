@@ -13,23 +13,11 @@ const StyledWrapper = styled.div`
 
 const StyledGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(300px,1fr));
   grid-gap: 2vw;
   gird-wrap: wrap;
 
-  @media (max-width: 1200px) {
-    grid-template-columns: repeat(2, 0.5fr);
-    
-  }
-  @media (max-width: 1100px) {
-    grid-template-columns: auto;
-    grid-gap: 2vw;
-  }
-  @media (min-width: 2000px) {
-    grid-template-columns: auto auto auto;
-    grid-gap: 2vw;
-
-  }
+  
 `;
 
 const GridTemplate = ({ children }) => (

@@ -19,12 +19,7 @@ const StyledWrapper = styled.div`
     box-shadow: 0 10px 20px -3px rgba(0,0,0,.5), 0 4px 10px -2px rgba(0,0,0,.5);
   }
 
-  @media (max-width: 860px) {
-    width: 70vw;
-  }
-  @media (min-width: 1200px) {
-    width: 100%;
-  }
+ 
 `;
 const ExerciseWrapper = styled.div`
   display: flex;
