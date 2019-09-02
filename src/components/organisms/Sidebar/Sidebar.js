@@ -18,7 +18,7 @@ const StyledLink = styled(Link)`
   }
 `;
 const Wrapper = styled.nav`
-  border-radius: 2px;
+  border-radius: 0 0 2px 2px;
   position: fixed;
   width: 100vw;
   top: 0;
