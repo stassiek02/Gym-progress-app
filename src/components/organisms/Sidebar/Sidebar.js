@@ -78,6 +78,7 @@ const LogoutButton = styled(Button)`
   background-repeat:no-repeat;
   background-size:20%;
   background-position:5%;
+  border-radius:0;
 
   @media(max-width:560px){
      height:50px;
